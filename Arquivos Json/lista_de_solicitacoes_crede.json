@@ -1,0 +1,19 @@
+{
+    "15152422000150": [
+        {
+            "id": 1,
+            "cnpj_crede": "00319801000114",
+            "orçamentos": [
+                {
+                    "n_orcamento": 1,
+                    "nome_produto": "Lápis",
+                    "quantidade": "18",
+                    "preco": "2",
+                    "fornecedor": "Bic",
+                    "cnpj_fornecedor": "61140349000113"
+                }
+            ],
+            "situacao": null
+        }
+    ]
+}

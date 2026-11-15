@@ -1,129 +1,84 @@
-import crede
-import escolas
+
+import escolas_login_e_cadastro
 import util
+import crede_login_e_cadastro
 
 
-
-def menuPrincipal():
+# Menu principal do sistema
+def menu_principal():
     while True:
-        util.limpa_tela();
-        util.cabecalho();
-        print("- Como deseja acessar? -");
-        print("1 - CREDE");
-        print("2 - Escolas");
-        print("0 - Sair");
-        
-        opcao = input("Selecione o tipo de acesso: ")
-        
-        if opcao == '1':
-            crede.menu_principal()
-        elif opcao == '2':
-            print("\nSistema Escolar...\n")
-            escolas.menu_principal() 
-        elif opcao == '0':
-            print("\nA encerrar o sistema principal. Até breve!\n")
-            break
-        else:
-            print("\nOpção inválida! Por favor, digite 0, 1 ou 2.\n")
-
-# Aqui está o menu principal de login, onde o usuário pode escolher entre acessar como CREDE ou como Escola.
-def escolha_login():
-    opcao = 3
-    while opcao != 0:
         util.limpa_tela()
         util.cabecalho()
-        print('Seja Bem-Vindo a o Sistema de Controle de Estoque Escolar!\nComo deseja acessar?')
-        print()
-        print("1 - Sou Crede")
+
+        print(
+            "Seja bem-vindo ao Sistema de Controle "
+            "de Estoque Escolar!\n"
+        )
+        print("1 - Sou CREDE")
         print("2 - Sou Escola")
         print("0 - Sair")
-        print()
-        opcao = int(input("Selecione uma opção: "))
 
-        if opcao == 1:
+        opcao = input("Selecione uma opção: ")
+
+        if opcao == '1':
             login_crede()
-        elif opcao == 2:
+        elif opcao == '2':
             login_escola()
-        elif opcao == 0:
+        elif opcao == '0':
             print("\nEncerrando o sistema. Até logo!\n")
             util.timer()
+            break
         else:
             util.opcao_invalida()
             util.timer()
 
-#Aqui está o menu de login para usuários do tipo CREDE
+
+# Menu de acesso da CREDE
 def login_crede():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Login CREDE -\n")
-    print('1 - Cadastar-se como CREDE')
-    print('2 - Já tenho cadastro')
-    print('0 - Voltar')
-    opcao = int(input("Selecione uma opção: "))
-    if opcao == 1:
-        cadastro_crede()
-    elif opcao == 2:
-        entrar_crede()
-    elif opcao == 0:
-        escolha_login()
-    else:
-        util.opcao_invalida()
-    util.timer()
+    while True:
+        util.limpa_tela()
+        util.cabecalho()
 
-#Aqui está o menu de login para usuários do tipo Escola
+        print("\n- Login CREDE -\n")
+        print("1 - Cadastrar uma CREDE")
+        print("2 - Já tenho cadastro")
+        print("0 - Voltar")
+
+        opcao = input("Selecione uma opção: ")
+
+        if opcao == '1':
+            crede_login_e_cadastro.adm_cadastro_crede()
+        elif opcao == '2':
+            crede_login_e_cadastro.entrar_crede()
+        elif opcao == '0':
+            break
+        else:
+            util.opcao_invalida()
+            util.timer()
+
+
+# Menu de acesso da Escola
 def login_escola():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Login Escola -\n")
-    print('1 - Cadastar-se como Escola')
-    print('2 - Já tenho cadastro')
-    print('0 - Voltar')
-    opcao = int(input("Selecione uma opção: "))
-    if opcao == 1:
-        cadastro_escola()
-    elif opcao == 2:
-        entrar_escola()
-    elif opcao == 0:
-        escolha_login()
-    else:
-        util.opcao_invalida()
-    util.timer()
+    while True:
+        util.limpa_tela()
+        util.cabecalho()
 
-#Sessão de cadastro para CREDE e Escola, onde os usuários podem se registrar no sistema. Atualmente, essas funções estão em desenvolvimento e exibem mensagens de "em breve".
-def cadastro_crede():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Cadastro CREDE -\n")
-    
-    print("\nCadastro de CREDE em breve...\n")
-    util.timer()
+        print("\n- Login Escola -\n")
+        print("1 - Cadastrar-se como Escola")
+        print("2 - Já tenho cadastro")
+        print("0 - Voltar")
 
-def cadastro_escola():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Cadastro Escola -\n")
-    
-    print("\nCadastro de Escola em breve...\n")
-    util.timer()
+        opcao = input("Selecione uma opção: ")
 
-#Sessão de entrada para CREDE e Escola, onde os usuários podem acessar o sistema. Atualmente, essas funções estão em desenvolvimento e exibem mensagens de "em breve".
-def entrar_crede():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Entrar como CREDE -\n")
+        if opcao == '1':
+            escolas_login_e_cadastro.adm_cadastro_escola()
+        elif opcao == '2':
+            escolas_login_e_cadastro.entrar_escola()
+        elif opcao == '0':
+            break
+        else:
+            util.opcao_invalida()
+            util.timer()
 
-    crede.menu_principal()
-    
-    util.timer()
 
-def entrar_escola():
-    util.limpa_tela()
-    util.cabecalho()
-    print("\n- Entrar como Escola -\n")
-    
-    escolas.menu_principal()
-
-    util.timer()
-
-escolha_login()
-print()
+menu_principal()
