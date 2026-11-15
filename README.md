@@ -35,3 +35,5 @@ O sistema é dividido em dois módulos principais, atendendo às necessidades de
 * **Para a Sociedade:** Transparência, redução de desperdícios e melhoria na infraestrutura de suporte à educação.
 
 
+## Biblioteca
+* para os pdfs é necessario instalar na maquina o fpdf2 --> no terminal: pip install fpdf2

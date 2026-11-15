@@ -2,7 +2,7 @@ import json
 import os
 import util
 import pathlib
-import escola_estoque, escola_retiradas, escola_autorizacao
+import escola_estoque, escola_retiradas, escola_autorizacao, escola_relatorios
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
@@ -39,6 +39,7 @@ def menu_principal(cnpj_escola_logada):
         print("4 - Visualizar Histórico de Retiradas")
         print("5 - Solicitar Autorização de Compra (CREDE)")
         print("6 - Visualizar Solicitações de Compra (CREDE)")
+        print("7 - Baixar Relatórios em PDF (Estoque / Retiradas)")
         print("0 - Voltar")
         print("="*50)
         
@@ -56,6 +57,8 @@ def menu_principal(cnpj_escola_logada):
             escola_autorizacao.solicitar_autorizacao_compra(cnpj_escola_logada)
         elif opcao == '6':
             escola_autorizacao.visualizar_solicitacoes(cnpj_escola_logada)
+        elif opcao == '7':
+            escola_relatorios.menu_baixar_pdf(cnpj_escola_logada)
         elif opcao == '0':
             break
         else:
