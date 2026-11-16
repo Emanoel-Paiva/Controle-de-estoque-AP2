@@ -60,6 +60,7 @@ def cadastro_escola():
     ############################################
     
     nome = input("Digite o nome da Escola: ")
+    email = input("Digite o email responsável: ")
     senha = input("Crie a senha de acesso: ")
     crede = input("Digite o CNPJ da CREDE vinculada a esta escola: ")
 
@@ -71,6 +72,7 @@ def cadastro_escola():
     print("\n- Confira os dados inseridos: -\n")
     print("CNPJ: {}".format(cnpj))
     print("Nome: {}".format(nome))
+    print(f"Email: {email}")
     print("CREDE: {}".format(crede))
 
     opcao = input("\nEscreva 1 para confirmar ou 0 para cancelar: \n")
@@ -79,6 +81,7 @@ def cadastro_escola():
         lista_escolas.append({
             "cnpj": cnpj,
             "nome": nome,
+            "email": email,
             "crede": crede,
             "salt": salt,
             "senha_hash": senha_hash

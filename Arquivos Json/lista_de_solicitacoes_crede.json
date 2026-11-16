@@ -11,7 +11,14 @@
                     "preco": "2",
                     "fornecedor": "Bic",
                     "cnpj_fornecedor": "61140349000113"
-                }
+                },
+                {"n_orcamento": 2,
+                    "nome_produto": "Lápis",
+                    "quantidade": "18",
+                    "preco": "3",
+                    "fornecedor": "Compactor",
+                    "cnpj_fornecedor": "54340349000113"
+            }
             ],
             "situacao": null
         }

@@ -56,6 +56,7 @@ def cadastro_crede():
     
 
     nome = input("Digite o nome da CREDE: ")
+    email = input("Digite o email responsável: ")
     senha = input("Crie a senha de acesso: ")
 
     salt, senha_hash = util.gerar_hash_senha(senha)
@@ -63,6 +64,8 @@ def cadastro_crede():
     print("\n- Confira os dados inseridos: -\n")
     print(f"CNPJ: {cnpj}")
     print(f"Nome: {nome}")
+    print(f"Email: {email}")
+
 
     opcao = input("\nEscreva 1 para confirmar ou 0 para cancelar: \n")
 
@@ -70,6 +73,7 @@ def cadastro_crede():
         credes.append({
             "cnpj": cnpj,
             "nome": nome,
+            "email": email,
             "salt": salt,
             "senha_hash": senha_hash
         })

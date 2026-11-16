@@ -131,6 +131,23 @@ def aprovar_solicitacao(cnpj_crede_logada):
         util.timer()
         return
 
+
+    #PARA MOSTRAR OS ORÇAMENTOS ANTES DE APROVAR OU NÃO
+    util.limpa_tela()
+    print(f"--- Orçamentos enviados com o ID: {id_digitado}. ---\n")
+    orcamentos = solicitacao_selecionada.get("orçamentos", [])
+    print("-" * 30)
+    for i in orcamentos:
+        print(f"Nº Orçamento: {i.get('n_orcamento')}")
+        print(f"Produto: {i.get('nome_produto')}")
+        print(f"Quantidade: {i.get('quantidade')}")
+        print(f"Preço: {i.get('preco')}")
+        print(f"Fornecedor: {i.get('fornecedor')}")
+        print(f"CNPJ Fornecedor: {i.get('cnpj_fornecedor')}")
+        print("-" * 30)
+
+
+
     print("\n1 - Aprovar")
     print("2 - Reprovar")
     print("0 - Cancelar")
