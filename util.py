@@ -11,7 +11,10 @@ def cabecalho():
     print("====================================")
 
 def limpa_tela():
-    os.system("cls")
+    if os.name == 'posix':
+        os.system('clear')
+    else:
+        os.system('cls')
 
 def timer():
     time.sleep(3)

@@ -3,6 +3,7 @@ from datetime import datetime
 from fpdf import FPDF
 import escolas_menus
 import util
+import envia_emails
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 pasta_pdfs = pathlib.Path.home() / "Downloads"
@@ -10,7 +11,7 @@ pasta_pdfs = pathlib.Path.home() / "Downloads"
 ARQUIVO_ESTOQUE = pasta_jsons / "lista_de_estoques_escolares.json"
 ARQUIVO_RETIRADAS = pasta_jsons / "lista_de_historico_retiradas.json"
 ARQUIVO_ESCOLAS = pasta_jsons / "lista_de_escolas.json"
-
+ARQUIVO_CREDES = pasta_jsons / "lista_de_credes.json"
 
 def _obter_nome_escola(cnpj_escola):
     escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
@@ -20,6 +21,20 @@ def _obter_nome_escola(cnpj_escola):
                 return escola.get("nome", "Escola")
     return "Escola"
 
+def obter_email_crede(cnpj_escola):
+    escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    cnpj_crede_da_escola = None
+    if isinstance(escolas, list):
+        for escola in escolas:
+            if escola.get("cnpj") == cnpj_escola:
+                cnpj_crede_da_escola = escola.get("crede")
+                break
+    credes = escolas_menus.carregar_dados(ARQUIVO_CREDES)
+    if isinstance(credes, list):
+            for crede in credes:
+                if crede.get("cnpj") == cnpj_crede_da_escola:
+                    return crede.get("email")
+    return None
 
 def _adicionar_tabela_estoque(pdf, cnpj_escola):
     estoques = escolas_menus.carregar_dados(ARQUIVO_ESTOQUE)
@@ -121,5 +136,24 @@ def menu_baixar_pdf(cnpj_escola_logada):
 
     print(f"\nPDF gerado com sucesso!")
     print(f"Salvo em: {caminho_pdf.resolve()}")
-    input("\nPressione Enter para voltar ao menu...")
+    
+    
+    ### ESSA PARTE MANDA EMAILS PARA CREDE OU ESCOLA CASO O USUÁRIO QUEIRA
+    mandar_email = input("\nPressione Enter para voltar ao menu.\nOu digite 1 para enviar esse relatório por email para a CREDE: ").strip()
+    if mandar_email != "1":
+        return
+
+    
+    email_da_crede = obter_email_crede(cnpj_escola_logada)
+
+    if email_da_crede:
+            sucesso = envia_emails.enviar_relatorio(email_da_crede, caminho_pdf, nome_escola, cnpj_escola_logada)
+            if sucesso:
+                print("\nE-mail enviado para a CREDE com sucesso!")
+            else:
+                print("\nHouve um erro ao enviar o e-mail.")
+    else:
+        print("\nE-mail da CREDE não encontrado para esta escola.")
+            
+    input("\nPressione Enter para continuar...")
     util.limpa_tela()
