@@ -141,6 +141,7 @@ def menu_baixar_pdf(cnpj_escola_logada):
     ### ESSA PARTE MANDA EMAILS PARA CREDE OU ESCOLA CASO O USUÁRIO QUEIRA
     mandar_email = input("\nPressione Enter para voltar ao menu.\nOu digite 1 para enviar esse relatório por email para a CREDE: ").strip()
     if mandar_email != "1":
+        util.limpa_tela()
         return
 
     
