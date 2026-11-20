@@ -1,6 +1,5 @@
 import util
 import pathlib
-import escolas_menus
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
@@ -15,13 +14,13 @@ ARQUIVO_COMPRAS = pasta_jsons / 'lista_de_solicitacoes_crede.json'
 def solicitar_autorizacao_compra(cnpj_escola_logada):
     util.limpa_tela()
     
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
     autorizacoes_da_escola = autorizacoes.setdefault(cnpj_escola_logada, [])
 
     escola = next(
         (
             cadastro
-            for cadastro in escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+            for cadastro in util.carregar_dados(ARQUIVO_ESCOLAS)
             if cadastro.get("cnpj") == cnpj_escola_logada
         ),
         None
@@ -48,10 +47,11 @@ def solicitar_autorizacao_compra(cnpj_escola_logada):
             return
     
         if int(numero_de_orcamentos) <= 0:
-            continuar = input("\nA quantidade de orçamentos deve ser um número positivo.\nPressione Enter para continuar ou digite 1 para voltar ao menu...").strip()
+            continuar = input("\nA quantidade de orçamentos deve ser um número positivo.\nPressione Enter para digitar novamente ou digite 1 para voltar ao menu...").strip()
             if continuar == "1":
                 util.limpa_tela()
                 return
+            continue
         if int(numero_de_orcamentos) < 3:
             continuar = input("\nAo enviar menos de 3 orçamentos, você manifesta desinteresse do mercado.\nPressione Enter para continuar ou digite 1 para voltar ao menu... ").strip()
             if continuar == "1":
@@ -66,7 +66,7 @@ def solicitar_autorizacao_compra(cnpj_escola_logada):
 
     ### ESPAÇO PARA COLETAR OS DADOS DE CADA ORÇAMENTO ###
     lista_de_orçamentos = []
-    id_solicitacao = escolas_menus.gerar_id(autorizacoes_da_escola)
+    id_solicitacao = util.gerar_id(autorizacoes_da_escola)
     
     util.limpa_tela()
     for i in range(numero_de_orcamentos):
@@ -118,7 +118,7 @@ def solicitar_autorizacao_compra(cnpj_escola_logada):
                 return
 
     autorizacoes_da_escola.append(nova_solicitacao)
-    escolas_menus.salvar_dados(ARQUIVO_COMPRAS, autorizacoes)
+    util.salvar_dados(ARQUIVO_COMPRAS, autorizacoes)
     print(f"\nSolicitação enviada com sucesso! (ID: {id_solicitacao}) Aguardando análise da CREDE.")
     util.timer()
     util.limpa_tela()
@@ -126,7 +126,7 @@ def solicitar_autorizacao_compra(cnpj_escola_logada):
 def visualizar_solicitacoes(cnpj_escola_logada):
     util.limpa_tela()
     
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
     autorizacoes_da_escola = autorizacoes.setdefault(cnpj_escola_logada, [])
     
     print("\n--- Solicitações de Autorização de Compra (Escola) ---\n")
@@ -157,7 +157,7 @@ def visualizar_solicitacoes(cnpj_escola_logada):
 
 
 def mostrar_notificacoes_solicitacoes(cnpj_escola_logada):
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
     solicitacoes_da_escola = autorizacoes.get(cnpj_escola_logada, [])
 
     if not solicitacoes_da_escola:

@@ -23,7 +23,7 @@ def adm_cadastro_crede():
     if prosseguir:
         cadastro_crede()
 
-    util.timer()
+
 
 
 # Cadastro de CREDE
@@ -36,16 +36,20 @@ def cadastro_crede():
     print("\n- Cadastro CREDE -\n")
     
     cnpj = input("Digite o CNPJ da CREDE: ")
-
     cnpj = util.padronizar_cnpj(cnpj)
-    
-    while True:
+    i = 0
+    while i < 3:
         if cnpj is not None:
             break
         else:
             print("\nCNPJ inválido! Por favor, digite um CNPJ válido.\n")
             cnpj = input("Digite o CNPJ da CREDE: ")
             cnpj = util.padronizar_cnpj(cnpj)
+            i +=1
+    if cnpj is None:
+        print("Operação cancelada!")
+        util.timer()
+        return
     
     for cadastro in credes:
         if cadastro["cnpj"] == cnpj:

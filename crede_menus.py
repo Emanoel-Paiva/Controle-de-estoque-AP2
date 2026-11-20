@@ -1,7 +1,6 @@
 import crede_fiscalizacao
 import crede_autorizacao
 import util
-import escolas_menus
 import pathlib
 
 
@@ -13,7 +12,7 @@ ARQUIVO_COMPRAS = pasta_jsons / 'lista_de_solicitacoes_crede.json'
 
 
 def contar_solicitacoes_pendentes(cnpj_crede):
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
     return sum(
         1
         for solicitacoes in autorizacoes.values()
@@ -26,7 +25,7 @@ def contar_solicitacoes_pendentes(cnpj_crede):
 def menu_principal(cnpj_crede_logada):
     util.limpa_tela()
     nome_da_crede = ''
-    for crede in escolas_menus.carregar_dados(ARQUIVO_CREDE):
+    for crede in util.carregar_dados(ARQUIVO_CREDE):
         if crede['cnpj'] == cnpj_crede_logada:
             nome_da_crede = crede['nome']
             break

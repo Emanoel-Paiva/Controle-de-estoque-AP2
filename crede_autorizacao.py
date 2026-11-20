@@ -1,6 +1,5 @@
 import util
 import pathlib
-import escolas_menus
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
@@ -14,7 +13,7 @@ ARQUIVO_COMPRAS = pasta_jsons / 'lista_de_solicitacoes_crede.json'
 def buscar_autorizacoes_crede(cnpj_crede_logada):
     util.limpa_tela()
     
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
     solicitacoes_da_crede = [
         (cnpj_escola, solicitacao)
         for cnpj_escola, solicitacoes in autorizacoes.items()
@@ -50,8 +49,8 @@ def buscar_autorizacoes_crede(cnpj_crede_logada):
 
 
 def aprovar_solicitacao(cnpj_crede_logada):
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
-    lista_de_escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
+    lista_de_escolas = util.carregar_dados(ARQUIVO_ESCOLAS)
     escolas_por_cnpj = {
         escola["cnpj"]: escola
         for escola in lista_de_escolas
@@ -163,15 +162,15 @@ def aprovar_solicitacao(cnpj_crede_logada):
         return
 
     solicitacao_selecionada["situacao"] = situacoes[decisao]
-    escolas_menus.salvar_dados(ARQUIVO_COMPRAS, autorizacoes)
+    util.salvar_dados(ARQUIVO_COMPRAS, autorizacoes)
     print(f"Solicitação {id_solicitacao} {situacoes[decisao].lower()} com sucesso.")
     util.timer()
 
 def lista_de_solicitacoes(cnpj_crede_logada):
     util.limpa_tela()
     
-    autorizacoes = escolas_menus.carregar_dados(ARQUIVO_COMPRAS)
-    escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    autorizacoes = util.carregar_dados(ARQUIVO_COMPRAS)
+    escolas = util.carregar_dados(ARQUIVO_ESCOLAS)
     nomes_das_escolas = {
         escola["cnpj"]: escola["nome"]
         for escola in escolas

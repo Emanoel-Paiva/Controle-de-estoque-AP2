@@ -2,7 +2,7 @@
 import escolas_login_e_cadastro
 import util
 import crede_login_e_cadastro
-
+import geral_login_cadastro
 
 # Menu principal do sistema
 def menu_principal():
@@ -16,6 +16,7 @@ def menu_principal():
         )
         print("1 - Sou CREDE")
         print("2 - Sou Escola")
+        print("3 - Ajuda")
         print("0 - Sair")
 
         opcao = input("Selecione uma opção: ")
@@ -24,6 +25,8 @@ def menu_principal():
             login_crede()
         elif opcao == '2':
             login_escola()
+        elif opcao == "3":
+            geral_login_cadastro.menu_ajuda()
         elif opcao == '0':
             print("\nEncerrando o sistema. Até logo!\n")
             util.timer()

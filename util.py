@@ -2,6 +2,7 @@ import os, time
 import hashlib
 import secrets
 import hmac
+import json
 
 
 #BÁSICO
@@ -79,3 +80,20 @@ def verificar_senha(senha_digitada, salt_hex, hash_armazenado):
     ).hex()
 
     return hmac.compare_digest(hash_calculado, hash_armazenado)
+
+
+#MANIPULACAO E PERMANENCIA DE DADOS
+def carregar_dados(nome_arquivo):
+    if not os.path.exists(nome_arquivo):
+        return {}
+    with open(nome_arquivo, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def salvar_dados(nome_arquivo, dados):
+    with open(nome_arquivo, 'w', encoding='utf-8') as f:
+        json.dump(dados, f, indent=4, ensure_ascii=False)
+
+def gerar_id(dados):
+    if not dados:
+        return 1
+    return max(item["id"] for item in dados) + 1

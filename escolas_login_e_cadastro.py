@@ -1,11 +1,12 @@
 import pathlib
 import util
-import escolas_menus
 import os, json
+import escolas_menus
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
 ARQUIVO_ESCOLAS = pasta_jsons / 'lista_de_escolas.json'
+ARQUIVO_CREDES = pasta_jsons / 'lista_de_credes.json'
 
 
 # Cadastro de Escolas protegido por senha de administrador
@@ -20,11 +21,6 @@ def adm_cadastro_escola():
 
     if prosseguir:
         cadastro_escola()
-
-    util.timer()
-
-
-
 
 
 
@@ -41,16 +37,20 @@ def cadastro_escola():
 
     ########### BLOCO PRO CNPJ ###########
     cnpj = input("Digite o CNPJ da Escola: ")
-
     cnpj = util.padronizar_cnpj(cnpj)
-
-    while True:
+    i = 0
+    while i < 3:
             if cnpj is not None:
                 break
             else:
                 print("\nCNPJ inválido! Por favor, digite um CNPJ válido.\n")
                 cnpj = input("Digite o CNPJ da Escola: ")
                 cnpj = util.padronizar_cnpj(cnpj)
+                i += 1
+    if cnpj is None:
+        print("Operação cancelada!")
+        util.timer()
+        return
 
     for cadastro in lista_escolas:
             if cadastro["cnpj"] == cnpj:
@@ -59,10 +59,36 @@ def cadastro_escola():
                 return
     ############################################
     
+    crede_vinculada = util.padronizar_cnpj(input("Digite o CNPJ da CREDE vinculada a esta escola: "))
+    i = 0
+    while i < 3:
+        if crede_vinculada is not None:
+            break
+        else:
+            print("\nCNPJ inválido! Por favor, digite um CNPJ válido.\n")
+            crede_vinculada = input("Digite o CNPJ da CREDE: ")
+            crede_vinculada = util.padronizar_cnpj(crede_vinculada)
+            i +=1
+    if crede_vinculada is None:
+        print("Operação cancelada!")
+        util.timer()
+        return
+    
+    credes = util.carregar_dados(ARQUIVO_CREDES)
+    crede_nao_cadastrada = True
+    for crede_cadastrada in credes:
+        if crede_vinculada == crede_cadastrada['cnpj']:
+            crede_nao_cadastrada = False
+            break
+    if crede_nao_cadastrada:
+        print("CREDE ainda não cadastrada!\nSua CREDE precisa estar cadastrada para usar o sistema.")
+        util.timer()
+        return
+
     nome = input("Digite o nome da Escola: ")
     email = input("Digite o email responsável: ")
     senha = input("Crie a senha de acesso: ")
-    crede = input("Digite o CNPJ da CREDE vinculada a esta escola: ")
+
 
     salt, senha_hash = util.gerar_hash_senha(senha)
 
@@ -73,7 +99,7 @@ def cadastro_escola():
     print("CNPJ: {}".format(cnpj))
     print("Nome: {}".format(nome))
     print(f"Email: {email}")
-    print("CREDE: {}".format(crede))
+    print("CREDE: {}".format(crede_vinculada))
 
     opcao = input("\nEscreva 1 para confirmar ou 0 para cancelar: \n")
 
@@ -82,7 +108,7 @@ def cadastro_escola():
             "cnpj": cnpj,
             "nome": nome,
             "email": email,
-            "crede": crede,
+            "crede": crede_vinculada,
             "salt": salt,
             "senha_hash": senha_hash
         })

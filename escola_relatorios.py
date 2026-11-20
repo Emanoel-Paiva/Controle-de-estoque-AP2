@@ -1,7 +1,6 @@
 import pathlib
 from datetime import datetime
 from fpdf import FPDF
-import escolas_menus
 import util
 import envia_emails
 
@@ -14,7 +13,7 @@ ARQUIVO_ESCOLAS = pasta_jsons / "lista_de_escolas.json"
 ARQUIVO_CREDES = pasta_jsons / "lista_de_credes.json"
 
 def _obter_nome_escola(cnpj_escola):
-    escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    escolas = util.carregar_dados(ARQUIVO_ESCOLAS)
     if isinstance(escolas, list):
         for escola in escolas:
             if escola.get("cnpj") == cnpj_escola:
@@ -22,14 +21,14 @@ def _obter_nome_escola(cnpj_escola):
     return "Escola"
 
 def obter_email_crede(cnpj_escola):
-    escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    escolas = util.carregar_dados(ARQUIVO_ESCOLAS)
     cnpj_crede_da_escola = None
     if isinstance(escolas, list):
         for escola in escolas:
             if escola.get("cnpj") == cnpj_escola:
                 cnpj_crede_da_escola = escola.get("crede")
                 break
-    credes = escolas_menus.carregar_dados(ARQUIVO_CREDES)
+    credes = util.carregar_dados(ARQUIVO_CREDES)
     if isinstance(credes, list):
             for crede in credes:
                 if crede.get("cnpj") == cnpj_crede_da_escola:
@@ -37,7 +36,7 @@ def obter_email_crede(cnpj_escola):
     return None
 
 def _adicionar_tabela_estoque(pdf, cnpj_escola):
-    estoques = escolas_menus.carregar_dados(ARQUIVO_ESTOQUE)
+    estoques = util.carregar_dados(ARQUIVO_ESTOQUE)
     itens = estoques.get(cnpj_escola, [])
 
     pdf.set_font("Helvetica", "B", 12)
@@ -64,7 +63,7 @@ def _adicionar_tabela_estoque(pdf, cnpj_escola):
 
 
 def _adicionar_tabela_retiradas(pdf, cnpj_escola):
-    retiradas = escolas_menus.carregar_dados(ARQUIVO_RETIRADAS)
+    retiradas = util.carregar_dados(ARQUIVO_RETIRADAS)
     lista_retiradas = retiradas.get(cnpj_escola, [])
 
     pdf.set_font("Helvetica", "B", 12)

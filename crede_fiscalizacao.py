@@ -1,6 +1,6 @@
 import util
-import escolas_menus
 import pathlib
+import escola_estoque
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
@@ -14,7 +14,7 @@ def fiscalizar_estoques(cnpj_crede_logada):
     
     cnpj_da_crede_da_escola = None
     
-    lista_de_escolas = escolas_menus.carregar_dados(ARQUIVO_ESCOLAS)
+    lista_de_escolas = util.carregar_dados(ARQUIVO_ESCOLAS)
 
     for escolas_da_lista in lista_de_escolas:
         if cnpj_escola_buscada == escolas_da_lista['cnpj']:    
@@ -38,5 +38,5 @@ def fiscalizar_estoques(cnpj_crede_logada):
         util.limpa_tela()
         util.cabecalho()
         print(f"\nEstoque da escola: {nome_da_escola} \nCNPJ: {cnpj_escola_buscada}")
-        escolas_menus.consultarEstoque(cnpj_escola_buscada)
+        escola_estoque.consultarEstoque(cnpj_escola_buscada)
         return

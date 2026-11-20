@@ -2,7 +2,6 @@ import os
 import smtplib
 from email.message import EmailMessage
 from dotenv import load_dotenv
-import util
 
 load_dotenv()
 EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE")

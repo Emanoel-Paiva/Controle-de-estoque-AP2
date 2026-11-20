@@ -1,6 +1,5 @@
 import util
 import pathlib
-import escolas_menus
 
 pasta_jsons = pathlib.Path(__file__).parent / "Arquivos Json"
 
@@ -13,7 +12,7 @@ ARQUIVO_CREDE = pasta_jsons / 'lista_de_credes.json'
 
 #FUNÇÕES DE ESTOQUE
 def inserirProduto(cnpj_escola_logada):
-    estoques = escolas_menus.carregar_dados(ARQUIVO_ESTOQUE)
+    estoques = util.carregar_dados(ARQUIVO_ESTOQUE)
     estoque_da_escola = estoques.setdefault(cnpj_escola_logada, [])
     
     print("\n--- Inserir Novo Produto ---")
@@ -23,7 +22,7 @@ def inserirProduto(cnpj_escola_logada):
     validade = input("Validade (DD/MM/AAAA): ")
     
     novo_produto = {
-        "id": escolas_menus.gerar_id(estoque_da_escola),
+        "id": util.gerar_id(estoque_da_escola),
         "nome": nome,
         "categoria": categoria,
         "quantidade": quantidade,
@@ -31,14 +30,14 @@ def inserirProduto(cnpj_escola_logada):
     }
     
     estoque_da_escola.append(novo_produto)
-    escolas_menus.salvar_dados(ARQUIVO_ESTOQUE, estoques)
+    util.salvar_dados(ARQUIVO_ESTOQUE, estoques)
     print(f"\nProduto '{nome}' inserido com sucesso (ID: {novo_produto['id']})!")
     util.timer()
     util.limpa_tela()
 
 def retiradaDeProduto(cnpj_escola_logada):
-    estoques = escolas_menus.carregar_dados(ARQUIVO_ESTOQUE)
-    retiradas = escolas_menus.carregar_dados(ARQUIVO_RETIRADAS)
+    estoques = util.carregar_dados(ARQUIVO_ESTOQUE)
+    retiradas = util.carregar_dados(ARQUIVO_RETIRADAS)
     estoque_da_escola = estoques.get(cnpj_escola_logada, [])
     retiradas_da_escola = retiradas.setdefault(cnpj_escola_logada, [])
 
@@ -56,7 +55,7 @@ def retiradaDeProduto(cnpj_escola_logada):
                 
                 # Para fazer o registro do histórico da movimentação
                 registro_retirada = {
-                    "id": escolas_menus.gerar_id(retiradas_da_escola),
+                    "id": util.gerar_id(retiradas_da_escola),
                     "id_produto": produto["id"],
                     "nome_produto": produto["nome"],
                     "setor": setor_solicitante,
@@ -64,8 +63,8 @@ def retiradaDeProduto(cnpj_escola_logada):
                 }
                 
                 retiradas_da_escola.append(registro_retirada)
-                escolas_menus.salvar_dados(ARQUIVO_ESTOQUE, estoques)
-                escolas_menus.salvar_dados(ARQUIVO_RETIRADAS, retiradas)
+                util.salvar_dados(ARQUIVO_ESTOQUE, estoques)
+                util.salvar_dados(ARQUIVO_RETIRADAS, retiradas)
                 
                 print(f"\nRetirada autorizada! {qtd_retirar} unid. de '{produto['nome']}' enviadas para: {setor_solicitante}.")
                 util.timer()
@@ -82,7 +81,7 @@ def retiradaDeProduto(cnpj_escola_logada):
     util.limpa_tela()
 
 def consultarEstoque(cnpj_escola_logada):
-    estoques = escolas_menus.carregar_dados(ARQUIVO_ESTOQUE)
+    estoques = util.carregar_dados(ARQUIVO_ESTOQUE)
     estoque_da_escola = estoques.get(cnpj_escola_logada, [])
 
     print("\n--- Estoque Atual ---")

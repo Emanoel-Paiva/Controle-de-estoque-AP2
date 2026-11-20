@@ -1,5 +1,3 @@
-import json
-import os
 import util
 import pathlib
 import escola_estoque, escola_retiradas, escola_autorizacao, escola_relatorios
@@ -17,11 +15,11 @@ ARQUIVO_CREDE = pasta_jsons / 'lista_de_credes.json'
 def menu_principal(cnpj_escola_logada):
     util.limpa_tela()
     nome_da_escola = ''
-    for escola in carregar_dados(ARQUIVO_ESCOLAS):
+    for escola in util.carregar_dados(ARQUIVO_ESCOLAS):
         if escola['cnpj'] == cnpj_escola_logada:
             nome_da_escola = escola['nome']
             break
-    for crede in carregar_dados(ARQUIVO_CREDE):
+    for crede in util.carregar_dados(ARQUIVO_CREDE):
         if crede['cnpj'] == escola['crede']:
             nome_da_crede = crede['nome']
             break
@@ -62,27 +60,14 @@ def menu_principal(cnpj_escola_logada):
         elif opcao == '0':
             break
         else:
-            print("\nOpção inválida! Por favor, digite um número de 0 a 6.")
+            print("\nOpção inválida! Por favor, digite um número de 0 a 7.")
             util.timer()
             util.limpa_tela()
 
 
 
-#BÁSICO
-def carregar_dados(nome_arquivo):
-    if not os.path.exists(nome_arquivo):
-        return {}
-    with open(nome_arquivo, 'r', encoding='utf-8') as f:
-        return json.load(f)
 
-def salvar_dados(nome_arquivo, dados):
-    with open(nome_arquivo, 'w', encoding='utf-8') as f:
-        json.dump(dados, f, indent=4, ensure_ascii=False)
 
-def gerar_id(dados):
-    if not dados:
-        return 1
-    return max(item["id"] for item in dados) + 1
 
 
 

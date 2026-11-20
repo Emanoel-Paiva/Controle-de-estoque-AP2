@@ -1,4 +1,3 @@
-import escolas_menus
 import util
 import pathlib
 
@@ -12,7 +11,7 @@ ARQUIVO_CREDE = pasta_jsons / 'lista_de_credes.json'
 
 
 def visualizar_historico_retiradas(cnpj_escola_logada):
-    retiradas = escolas_menus.carregar_dados(ARQUIVO_RETIRADAS)
+    retiradas = util.carregar_dados(ARQUIVO_RETIRADAS)
     retiradas_da_escola = retiradas.get(cnpj_escola_logada, [])
 
     print("\n--- Histórico de Retiradas ---")
